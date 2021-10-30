@@ -1,0 +1,3 @@
+- Use feature branches
+- Merge into `dev`-branch
+- `dev`-branch will be merged into master by Fi0x
