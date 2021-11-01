@@ -1,6 +1,7 @@
 using Environment.Terrain;
 using UnityEditor;
 using UnityEngine;
+using Random = System.Random;
 
 public class TerrainController : MonoBehaviour
 {
@@ -10,16 +11,16 @@ public class TerrainController : MonoBehaviour
     void Start()
     {
         _terrainTiles = new TileList[4];
-        for (int idx = 0; idx < 4; idx++)
+        for (var idx = 0; idx < 4; idx++)
         {
             var mapCenter = new Vector3(0, 0, 0);
             var xQuart = idx < 2;
             var zQuart = idx % 2 == 0;
             _terrainTiles[idx] = new TileList(gameObject, mapCenter, xQuart, zQuart, TileSize);
 
-            TerrainData data = AssetDatabase.LoadAssetAtPath<TerrainData>("Assets/Scenes/Terrains/DefaultTerrain1.asset");
-            Debug.Log(data);
-            GameObject terrainObject = Terrain.CreateTerrainGameObject(data); //TODO: Get correct default terrain
+            var terrainNumber = new Random().Next(1, 10);
+            var data = AssetDatabase.LoadAssetAtPath<TerrainData>($"Assets/Scenes/Terrains/DefaultSurfaces/0{terrainNumber}.asset");
+            var terrainObject = Terrain.CreateTerrainGameObject(data);
             _terrainTiles[idx].AddTile(terrainObject);
         }
     }
@@ -27,9 +28,9 @@ public class TerrainController : MonoBehaviour
     public void AddTile(GameObject newTile)
     {
         (int idx, int count) smallestTile = (0, _terrainTiles[0].TileCount);
-        for (int i = 1; i < 4; i++)
+        for (var i = 1; i < 4; i++)
         {
-            int count = _terrainTiles[i].TileCount;
+            var count = _terrainTiles[i].TileCount;
             if (smallestTile.count > count)
                 smallestTile = (i, count);
         }
@@ -51,7 +52,7 @@ public class TerrainController : MonoBehaviour
         (int idx, int size) smallestQuarter = (0, _terrainTiles[0].TileCount);
         (int idx, int size) largestQuarter = (0, _terrainTiles[0].TileCount);
 
-        for (int idx = 1; idx < 4; idx++)
+        for (var idx = 1; idx < 4; idx++)
         {
             var count = _terrainTiles[idx].TileCount;
             if (count < smallestQuarter.size) smallestQuarter = (idx, count);

@@ -6,15 +6,15 @@ namespace Environment.Terrain
 {
     public class TileList
     {
-        private GameObject _terrainParentController;
+        private readonly GameObject _terrainParentController;
 
         private readonly List<List<GameObject>> _terrainField;
         private readonly List<(int x, int z)> _emptyTiles;
 
         private int _tileCount;
-        private Vector3 _origin;
-        private int _xMultiplier, _zMultiplier;
-        private int _tileSize;
+        private readonly Vector3 _origin;
+        private readonly int _xMultiplier, _zMultiplier;
+        private readonly int _tileSize;
 
         public int TileCount
         {
@@ -55,7 +55,7 @@ namespace Environment.Terrain
                 _terrainField[emptyTileLocation.x][emptyTileLocation.z] = tile;
                 placedX = emptyTileLocation.x;
                 placedZ = emptyTileLocation.z;
-                
+
                 _emptyTiles.Remove(emptyTileLocation);
                 foundEmpty = true;
             }
@@ -83,7 +83,7 @@ namespace Environment.Terrain
 
             var xOffset = (_tileSize / 2 + placedX * _tileSize) * _xMultiplier;
             var zOffset = (_tileSize / 2 + placedZ * _tileSize) * _zMultiplier;
-            Vector3 tileOffset = new Vector3(xOffset, 0, zOffset);
+            var tileOffset = new Vector3(xOffset, 0, zOffset);
             tile.transform.position = _origin + tileOffset;
         }
 
